@@ -2,12 +2,7 @@ extends Control
 
 var database: SQLite
 var amountOfUsers = 5;
-@onready var card_name = $CardName
-@onready var card_damage = $CardDamage
-@onready var card_health = $CardHealth
-@onready var card_ability_name = $CardAbilityName
-@onready var card_ability_description = $CardAbilityDescription
-@onready var card_type = $CardType
+
 @onready var random_numer = $RandomNumer
 @onready var control_card_id = $ControlCardId
 
@@ -58,24 +53,24 @@ func _on_select_button_down():
 	var cards = database.select_rows("cards","id =" + $ControlCardId.text,["*"])
 	
 	if (cards.size() == 0):
-		card_name.text = ""
-		card_type.text = ""
-		card_damage.text = ""
-		card_health.text = ""
-		card_ability_name.text = ""
-		card_ability_description.text = ""
+		$CardName.text = ""
+		$CardType.text = ""
+		$CardDamage.text = ""
+		$CardHealth.text = ""
+		$CardAbilityName.text = ""
+		$CardAbilityDescription.text = ""
 		$CardImage.texture = null
 	
 	for i in cards: 
-		card_name.text = i["name"]
+		$CardName.text = i["name"]
 		var type = database.select_rows("type","id =" + str(i["type"]),["*"])
-		card_type.text = type[0]["type"]
-		card_damage.text = str(i["damage"])
-		card_health.text = str(i["health"])
+		$CardType.text = type[0]["type"]
+		$CardDamage.text = str(i["damage"])
+		$CardHealth.text = str(i["health"])
 		
 		var ability = database.select_rows("ability","id ="+ str(i["ability"]),["*"])
-		card_ability_name.text = ability[0]["ability_name"]
-		card_ability_description.text = ability[0]["effect"]
+		$CardAbilityName.text = ability[0]["ability_name"]
+		$CardAbilityDescription.text = ability[0]["effect"]
 		
 		if(i["image"] != null):		
 			var image = Image.new()

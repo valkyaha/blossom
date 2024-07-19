@@ -1,0 +1,61 @@
+[gd_scene load_steps=3 format=3 uid="uid://bl4r85rv0x8l4"]
+
+[ext_resource type="Script" path="res://scenes/scripts/CardTemplateLogic.gd" id="1_axefn"]
+[ext_resource type="Texture2D" uid="uid://yqjfetnc3800" path="res://resources/CardTemplate/Cards_color3/Civilian_card_version3/Civilian_card_version3.png" id="1_oeid7"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_axefn")
+
+[node name="CardSprite" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(543, 326)
+scale = Vector2(2.23333, 2.23333)
+texture = ExtResource("1_oeid7")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = 346.0
+offset_top = 30.0
+offset_right = 740.0
+offset_bottom = 360.0
+
+[node name="CardName" type="TextEdit" parent="."]
+offset_left = 392.0
+offset_top = 400.0
+offset_right = 696.0
+offset_bottom = 440.0
+text = "Name"
+
+[node name="AbilityName" type="TextEdit" parent="."]
+offset_left = 392.0
+offset_top = 457.0
+offset_right = 696.0
+offset_bottom = 496.0
+text = "Ability Name"
+
+[node name="AbilityDescription" type="TextEdit" parent="."]
+offset_left = 392.0
+offset_top = 504.0
+offset_right = 696.0
+offset_bottom = 584.0
+text = "Ability Description"
+
+[node name="CardDamage" type="TextEdit" parent="."]
+offset_left = 457.0
+offset_top = 30.0
+offset_right = 512.0
+offset_bottom = 65.0
+text = "DMG"
+
+[node name="CardHP" type="TextEdit" parent="."]
+offset_left = 576.0
+offset_top = 30.0
+offset_right = 631.0
+offset_bottom = 65.0
+text = "HP"
+
+[node name="CardType" type="TextEdit" parent="."]
+offset_left = 512.0
+offset_top = 592.0
+offset_right = 576.0
+offset_bottom = 627.0
+text = "TP"

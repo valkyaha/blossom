@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://b8t1ajdl7tc0a"]
+[gd_scene load_steps=4 format=3 uid="uid://b8t1ajdl7tc0a"]
 
 [ext_resource type="Script" path="res://SQLController.gd" id="1_ups75"]
 [ext_resource type="PackedScene" uid="uid://cee6y0w0hsoqi" path="res://scenes/CardScene.tscn" id="2_puj57"]
+[ext_resource type="PackedScene" uid="uid://bl4r85rv0x8l4" path="res://scenes/template.tscn" id="3_oa7e7"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -12,46 +13,6 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ups75")
 
-[node name="INSERT" type="Button" parent="."]
-layout_mode = 0
-offset_left = 11.0
-offset_top = 23.0
-offset_right = 194.0
-offset_bottom = 65.0
-text = "Insert"
-
-[node name="UPDATE" type="Button" parent="."]
-layout_mode = 0
-offset_left = 10.0
-offset_top = 70.0
-offset_right = 193.0
-offset_bottom = 112.0
-text = "Update"
-
-[node name="SELECT" type="Button" parent="."]
-layout_mode = 0
-offset_left = 9.0
-offset_top = 119.0
-offset_right = 192.0
-offset_bottom = 161.0
-text = "Select"
-
-[node name="DELETE" type="Button" parent="."]
-layout_mode = 0
-offset_left = 8.0
-offset_top = 167.0
-offset_right = 191.0
-offset_bottom = 209.0
-text = "Delete"
-
-[node name="QUERY" type="Button" parent="."]
-layout_mode = 0
-offset_left = 7.0
-offset_top = 217.0
-offset_right = 190.0
-offset_bottom = 259.0
-text = "Image"
-
 [node name="CardImage" type="TextureRect" parent="."]
 layout_mode = 0
 offset_left = 486.0
@@ -60,7 +21,7 @@ offset_right = 861.0
 offset_bottom = 372.0
 
 [node name="CardTemplate" parent="." instance=ExtResource("2_puj57")]
-position = Vector2(674, 311)
+position = Vector2(504.562, 312.101)
 
 [node name="Roulette" type="Button" parent="."]
 layout_mode = 0
@@ -92,78 +53,109 @@ offset_right = 184.0
 offset_bottom = 369.0
 text = "Select card id"
 
-[node name="ItemList" type="ItemList" parent="."]
-layout_mode = 0
-offset_left = 938.0
-offset_top = 14.0
-offset_right = 1102.0
-offset_bottom = 102.0
-
 [node name="CardName" type="TextEdit" parent="."]
 layout_mode = 0
-offset_left = 544.0
-offset_top = 387.0
-offset_right = 696.0
-offset_bottom = 424.0
+offset_left = 374.562
+offset_top = 388.101
+offset_right = 526.562
+offset_bottom = 425.101
 text = "NAME"
 wrap_mode = 1
 
 [node name="CardType" type="TextEdit" parent="."]
 layout_mode = 0
-offset_left = 527.0
-offset_top = 47.0
-offset_right = 606.0
-offset_bottom = 84.0
+offset_left = 357.562
+offset_top = 48.1009
+offset_right = 436.562
+offset_bottom = 85.1009
 scale = Vector2(1.00325, 1)
 text = "TYPE"
 wrap_mode = 1
 
 [node name="CardDamage" type="TextEdit" parent="."]
 layout_mode = 0
-offset_left = 641.0
-offset_top = 48.0
-offset_right = 745.0
-offset_bottom = 83.0
+offset_left = 471.562
+offset_top = 49.1009
+offset_right = 575.562
+offset_bottom = 84.1009
 text = "DAMAGE"
 wrap_mode = 1
 
 [node name="CardHealth" type="TextEdit" parent="."]
 layout_mode = 0
-offset_left = 757.0
-offset_top = 46.0
-offset_right = 822.0
-offset_bottom = 84.0
+offset_left = 587.562
+offset_top = 47.1009
+offset_right = 652.562
+offset_bottom = 85.1009
 text = "VIDA"
 wrap_mode = 1
 
 [node name="CardAbilityName" type="TextEdit" parent="."]
 layout_mode = 0
-offset_left = 542.0
-offset_top = 450.0
-offset_right = 816.0
-offset_bottom = 489.0
+offset_left = 372.562
+offset_top = 451.101
+offset_right = 646.562
+offset_bottom = 490.101
 text = "Ability Name"
 wrap_mode = 1
 
 [node name="CardAbilityDescription" type="TextEdit" parent="."]
 layout_mode = 0
-offset_left = 540.0
-offset_top = 499.0
-offset_right = 819.0
-offset_bottom = 560.0
+offset_left = 370.562
+offset_top = 500.101
+offset_right = 649.562
+offset_bottom = 561.101
 text = "Ability description"
 wrap_mode = 1
 
 [node name="CardImage2" type="TextureRect" parent="."]
 layout_mode = 0
-offset_left = 486.0
-offset_top = 33.0
-offset_right = 861.0
-offset_bottom = 372.0
+offset_left = 316.562
+offset_top = 34.1009
+offset_right = 691.562
+offset_bottom = 373.101
 
-[connection signal="button_down" from="INSERT" to="." method="_on_insert_button_down"]
-[connection signal="button_down" from="UPDATE" to="." method="_on_update_button_down"]
-[connection signal="button_down" from="SELECT" to="." method="_on_select_button_down"]
-[connection signal="button_down" from="DELETE" to="." method="_on_delete_button_down"]
-[connection signal="button_down" from="QUERY" to="." method="_on_query_button_down"]
+[node name="Node2D" parent="." instance=ExtResource("3_oa7e7")]
+position = Vector2(391, -6)
+
+[node name="QUERY" type="Button" parent="Node2D"]
+offset_left = -384.0
+offset_top = 223.0
+offset_right = -201.0
+offset_bottom = 265.0
+text = "Image"
+
+[node name="INSERT" type="Button" parent="Node2D"]
+offset_left = -380.0
+offset_top = 29.0
+offset_right = -197.0
+offset_bottom = 71.0
+text = "Insert"
+
+[node name="UPDATE" type="Button" parent="Node2D"]
+offset_left = -381.0
+offset_top = 76.0
+offset_right = -198.0
+offset_bottom = 118.0
+text = "Update"
+
+[node name="SELECT" type="Button" parent="Node2D"]
+offset_left = -382.0
+offset_top = 125.0
+offset_right = -199.0
+offset_bottom = 167.0
+text = "Select"
+
+[node name="DELETE" type="Button" parent="Node2D"]
+offset_left = -383.0
+offset_top = 173.0
+offset_right = -200.0
+offset_bottom = 215.0
+text = "Delete"
+
 [connection signal="button_down" from="Roulette" to="." method="_on_roulette_button_down"]
+[connection signal="button_down" from="Node2D/QUERY" to="." method="_on_query_button_down"]
+[connection signal="button_down" from="Node2D/INSERT" to="." method="_on_insert_button_down"]
+[connection signal="button_down" from="Node2D/UPDATE" to="." method="_on_update_button_down"]
+[connection signal="button_down" from="Node2D/SELECT" to="." method="_on_select_button_down"]
+[connection signal="button_down" from="Node2D/DELETE" to="." method="_on_delete_button_down"]
