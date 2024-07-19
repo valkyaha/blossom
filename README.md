@@ -18,6 +18,7 @@ Antes de que una carta sea publicada y añadida al deck de cartas, deben ser apr
 - Visualizacion de deck (1a fase solo en stream, 2a fase en cualquier momento con un bot o algo)
 - Arena pelea contra el boss (que sea le streamer), va atacando una carta cada vez y se guarda en un deck y cuando haya terminado la cola se hace un shuffle
 - Recomenpensas definidas por le streamer (Rollo una cajita de texto)
+- En creacion de cartas habiliadeds comunes en caso de obtener mas puntos se pueden upgradear las habilidades
 
 ### Diseño
 ![alt text](DISEÑO.png)

@@ -4,6 +4,6 @@
 
 [node name="CivilianCardVersion3" type="Sprite2D"]
 texture_filter = 1
-position = Vector2(223, 323)
-scale = Vector2(2.1141, 2.1141)
+position = Vector2(230.438, 317.101)
+scale = Vector2(2.19038, 2.15564)
 texture = ExtResource("1_ni0d2")

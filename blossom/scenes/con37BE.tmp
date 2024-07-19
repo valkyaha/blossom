@@ -52,15 +52,63 @@ offset_right = 190.0
 offset_bottom = 259.0
 text = "Image"
 
-[node name="CardImage" type="TextureRect" parent="."]
-layout_mode = 0
-offset_left = 486.0
-offset_top = 33.0
-offset_right = 861.0
-offset_bottom = 372.0
-
-[node name="CardTemplate" parent="." instance=ExtResource("2_puj57")]
+[node name="CivilianCardVersion3" parent="." instance=ExtResource("2_puj57")]
 position = Vector2(674, 311)
+
+[node name="CardName" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 598.0
+offset_top = 387.0
+offset_right = 750.0
+offset_bottom = 424.0
+text = "NAME"
+wrap_mode = 1
+
+[node name="CardType" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 538.0
+offset_top = 76.0
+offset_right = 617.0
+offset_bottom = 113.0
+scale = Vector2(1.00325, 1)
+text = "TYPE"
+wrap_mode = 1
+
+[node name="CardDamage" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 652.0
+offset_top = 77.0
+offset_right = 756.0
+offset_bottom = 112.0
+text = "DAMAGE"
+wrap_mode = 1
+
+[node name="CardHealth" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 768.0
+offset_top = 75.0
+offset_right = 833.0
+offset_bottom = 113.0
+text = "VIDA"
+wrap_mode = 1
+
+[node name="CardAbilityName" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 537.0
+offset_top = 450.0
+offset_right = 811.0
+offset_bottom = 489.0
+text = "Ability Name"
+wrap_mode = 1
+
+[node name="CardAbilityDescription" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 534.0
+offset_top = 494.0
+offset_right = 813.0
+offset_bottom = 555.0
+text = "Ability description"
+wrap_mode = 1
 
 [node name="Roulette" type="Button" parent="."]
 layout_mode = 0
@@ -91,75 +139,6 @@ offset_top = 334.0
 offset_right = 184.0
 offset_bottom = 369.0
 text = "Select card id"
-
-[node name="ItemList" type="ItemList" parent="."]
-layout_mode = 0
-offset_left = 938.0
-offset_top = 14.0
-offset_right = 1102.0
-offset_bottom = 102.0
-
-[node name="CardName" type="TextEdit" parent="."]
-layout_mode = 0
-offset_left = 544.0
-offset_top = 387.0
-offset_right = 696.0
-offset_bottom = 424.0
-text = "NAME"
-wrap_mode = 1
-
-[node name="CardType" type="TextEdit" parent="."]
-layout_mode = 0
-offset_left = 527.0
-offset_top = 47.0
-offset_right = 606.0
-offset_bottom = 84.0
-scale = Vector2(1.00325, 1)
-text = "TYPE"
-wrap_mode = 1
-
-[node name="CardDamage" type="TextEdit" parent="."]
-layout_mode = 0
-offset_left = 641.0
-offset_top = 48.0
-offset_right = 745.0
-offset_bottom = 83.0
-text = "DAMAGE"
-wrap_mode = 1
-
-[node name="CardHealth" type="TextEdit" parent="."]
-layout_mode = 0
-offset_left = 757.0
-offset_top = 46.0
-offset_right = 822.0
-offset_bottom = 84.0
-text = "VIDA"
-wrap_mode = 1
-
-[node name="CardAbilityName" type="TextEdit" parent="."]
-layout_mode = 0
-offset_left = 542.0
-offset_top = 450.0
-offset_right = 816.0
-offset_bottom = 489.0
-text = "Ability Name"
-wrap_mode = 1
-
-[node name="CardAbilityDescription" type="TextEdit" parent="."]
-layout_mode = 0
-offset_left = 540.0
-offset_top = 499.0
-offset_right = 819.0
-offset_bottom = 560.0
-text = "Ability description"
-wrap_mode = 1
-
-[node name="CardImage2" type="TextureRect" parent="."]
-layout_mode = 0
-offset_left = 486.0
-offset_top = 33.0
-offset_right = 861.0
-offset_bottom = 372.0
 
 [connection signal="button_down" from="INSERT" to="." method="_on_insert_button_down"]
 [connection signal="button_down" from="UPDATE" to="." method="_on_update_button_down"]
