@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cee6y0w0hsoqi"]
+
+[ext_resource type="Texture2D" uid="uid://d10a03gjcq65q" path="res://resources/CardTemplate/Cards_color1/Civilian_card_version3/Civilian_card_version3.png" id="1_ni0d2"]
+
+[node name="CivilianCardVersion3" type="Sprite2D"]
+texture_filter = 1
+position = Vector2(223, 323)
+scale = Vector2(2.1141, 2.1141)
+texture = ExtResource("1_ni0d2")

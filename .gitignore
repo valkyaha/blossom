@@ -1,15 +1,16 @@
 # Godot 4+ specific ignores
-blossom/.godot/
+.godot/
 
 # Godot-specific ignores
-blossom/.import/
-blossom/export.cfg
-blossom/export_presets.cfg
+.import/
+*.import
+export.cfg
+export_presets.cfg
 
 # Imported translations (automatically generated from CSV files)
-blossom/*.translation
+*.translation
 
 # Mono-specific ignores
-blossom/.mono/
-blossom/data_*/
-blossom/mono_crash.*.json
+.mono/
+data_*/
+mono_crash.*.json
