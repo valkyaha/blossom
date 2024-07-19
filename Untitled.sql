@@ -1,36 +1,37 @@
-CREATE TABLE "ability" (
-  "id" integer PRIMARY KEY,
-  "ability_name" varchar,
-  "effect" varchar,
-  "damage" integer,
-  "buff" integer
+CREATE TABLE ability
+(
+    id           integer primary key,
+    ability_name text,
+    effect       text,
+    damage       integer,
+    buff         integer
 );
 
-CREATE TABLE "Type" (
-  "type" varchar PRIMARY KEY
+CREATE TABLE type
+(
+    id   integer primary key,
+    type text
 );
 
-CREATE TABLE "cards" (
-  "id" integer PRIMARY KEY,
-  "type" Type,
-  "image" blob,
-  "name" varchar,
-  "damage" integer,
-  "health" integer,
-  "ability" integer
+CREATE TABLE cards
+(
+    id      integer primary key,
+    type    integer,
+    image   blob,
+    name    text,
+    damage  integer,
+    health  integer,
+    ability integer,
+    FOREIGN KEY (type) REFERENCES type (id)
 );
 
-CREATE TABLE "users" (
-  "id" integer PRIMARY KEY,
-  "username" varchar,
-  "role" varchar,
-  "created_at" timestamp,
-  "points" double,
-  "card_id" Card.Card.ca
+CREATE TABLE users
+(
+    id         integer primary key,
+    username   text,
+    role       text,
+    created_at integer,
+    points     integer,
+    card_id    text,
+    FOREIGN KEY (card_id) REFERENCES cards (id)
 );
-
-ALTER TABLE "cards" ADD FOREIGN KEY ("type") REFERENCES "Type" ("type");
-
-ALTER TABLE "users" ADD FOREIGN KEY ("card_id") REFERENCES "cards" ("id");
-
-ALTER TABLE "ability" ADD FOREIGN KEY ("id") REFERENCES "cards" ("ability");
