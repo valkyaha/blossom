@@ -2,12 +2,14 @@ extends Control
 
 var database: SQLite
 var amountOfUsers = 5
+var configuration = ConfigFile.new()
 
 @onready var card_placeholder = $CardPlaceholder
 @onready var random_number = $RandomNumber
 @onready var control_card_id = $ControlCardId
 @onready var ability = $Ability
 @onready var type = $Type
+@onready var file_dialog = $FileDialog
 
 var card_image = null
 var card_name = ""
@@ -18,6 +20,12 @@ var card_hp = ""
 var card_type = ""
 
 func _ready():
+	var err = configuration.load("user://settings.cfg")
+	if err != OK:
+		configuration.set_value("General", "resource_image_folder", "")
+		configuration.save("user://settings.cfg")
+		return
+
 	database = SQLite.new()
 	database.path = "res://data/data.db"
 	if not database.open_db():
@@ -94,3 +102,25 @@ func _on_query_button_down():
 func _on_roulette_button_down():
 	$RandomNumer.text = str(randi() % amountOfUsers)
 	pass
+
+
+func _on_file_dialog_dir_selected(dir):
+	
+	for general in configuration.get_sections():
+		var general_image_source = configuration.get_value(general, "resource_image_folder")
+		print(general_image_source)
+	
+	print(dir)
+	
+	configuration.set_value("General", "resource_image_folder", dir)
+	configuration.save("user://settings.cfg")
+	pass # Replace with function body.
+
+
+func _on_image_folder_button_down():
+	var general_image_source = ""
+	for general in configuration.get_sections():
+		general_image_source = configuration.get_value(general, "resource_image_folder")
+	if (general_image_source.is_empty()):
+		file_dialog.visible = true
+	pass # Replace with function body.
