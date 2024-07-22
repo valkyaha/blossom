@@ -38,3 +38,18 @@ yarn-debug.log*
 yarn-error.log*
 
 .idea
+.gradle
+build
+bin
+
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### IntelliJ IDEA ###
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/

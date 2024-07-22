@@ -84,7 +84,7 @@ export const CardTemplateComponent = ({ initialData, onSubmit }) => {
                         placeholder="TP"
                     />
                 </div>
-                {/*<button type="submit" className="submitButton">Save</button>*/}
+                <button type="submit" className="submitButton">Save</button>
             </div>
         </form>
     );
