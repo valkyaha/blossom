@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import "./CardTemplateComponent.css";
+import cardTemplate from '../static/CardTemplate.png';
 
-export const CardTemplateComponent = ({initialData, onSubmit}) => {
+export const CardTemplateComponent = ({ initialData, onSubmit }) => {
     const [data, setData] = useState(initialData);
 
     const handleChange = (e) => {
-        const {name, value} = e.target;
+        const { name, value } = e.target;
         setData({
             ...data,
             [name]: value
@@ -20,8 +21,9 @@ export const CardTemplateComponent = ({initialData, onSubmit}) => {
     return (
         <form id="cardBody" onSubmit={handleSubmit}>
             <div id="cardImageContainer">
-                <img id="cardImage" src={data.image} alt="Card Image"/>
+                <img id="cardImage" src={data.image} alt="Card" />
             </div>
+            <img id="templateImage" alt="template" src={cardTemplate} />
             <div id="cardHeader">
                 <input
                     type="text"
@@ -71,7 +73,7 @@ export const CardTemplateComponent = ({initialData, onSubmit}) => {
                     cols={50}
                     rows={4}
                 />
-                <div id={"tpEncapsulation"}>
+                <div id="tpEncapsulation">
                     <input
                         type="text"
                         id="tp"
