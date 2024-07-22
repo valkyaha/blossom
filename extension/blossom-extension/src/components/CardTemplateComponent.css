@@ -22,10 +22,10 @@
     position: absolute;
     top: 5px;
     width: 90%;
-    z-index: 2;
+    z-index: 3; /* Ajustado para mejor visibilidad */
 }
 
-.cardInput {
+.cardInput, .cardInputDMGHP {
     background-color: rgba(0, 0, 0, 0.5);
     border: none;
     color: white;
@@ -33,7 +33,30 @@
     border-radius: 3px;
     font-size: small;
     text-align: center;
-    width: 5dvi;
+}
+
+.cardInput {
+    width: 90px; /* Cambiado de dvi a px */
+}
+
+.cardInputDMGHP {
+    width: 50px; /* Cambiado de dvi a px */
+}
+
+input[type=number] {
+    -moz-appearance: textfield; /* Firefox */
+    appearance: textfield; /* General */
+    margin: 0;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+#cardAbilitySelector {
+    width: 100%;
 }
 
 #cardImageContainer {
@@ -41,7 +64,7 @@
     width: 100%;
     position: absolute;
     top: 0;
-    z-index: 1;
+    z-index: 1; /* Imagen de fondo */
     overflow: hidden;
 }
 
@@ -57,7 +80,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 2;
+    z-index: 2; /* Imagen del template */
 }
 
 #name {
@@ -70,7 +93,7 @@
     text-align: center;
     font-weight: bold;
     color: white;
-    z-index: 3;
+    z-index: 3; /* Texto sobre el template */
     padding: 2px 5px;
     border: none;
 }
@@ -86,7 +109,7 @@
     height: 25%;
     left: 25px;
     font-size: small;
-    z-index: 3;
+    z-index: 3; /* Texto sobre el template */
 }
 
 #abilityName {
