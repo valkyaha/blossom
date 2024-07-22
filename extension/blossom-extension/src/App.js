@@ -1,11 +1,10 @@
-import logo from './logo.svg';
 import './App.css';
 import {CardTemplateComponent} from "./components/CardTemplateComponent";
 
 const cardData = {
     dmg: '10',
     hp: '20',
-    image: 'https://preview.redd.it/deer-godskin-shikanoko-the-scarlet-brainrot-v0-dkvl85w24pad1.jpeg?width=1920&format=pjpg&auto=webp&s=913c408a1333fff6aa3f00f91792a0cf056d0636',
+    image: 'https://www.ikea.com/es/es/images/products/blahaj-peluche-tiburon__0710175_pe727378_s5.jpg?f=xl',
     name: 'Shikanoko Noko',
     abilityName: 'Shikanoko',
     abilityDescription: 'Shikanoko noko koshi tan tan shikanoko noko koshi tan tan shikanoko noko koshi tan tan shikanoko noko koshi tan tan',

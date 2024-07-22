@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import "./CardTemplateComponent.css";
 
-export const CardTemplateComponent = ({ initialData, onSubmit }) => {
+export const CardTemplateComponent = ({initialData, onSubmit}) => {
     const [data, setData] = useState(initialData);
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         setData({
             ...data,
             [name]: value
@@ -38,7 +38,7 @@ export const CardTemplateComponent = ({ initialData, onSubmit }) => {
                 />
             </div>
             <div id="cardImageContainer">
-                <img id="cardImage" src={data.image} alt="Card Image" />
+                <img id="cardImage" src={data.image} alt="Card Image"/>
             </div>
             <input
                 type="text"
@@ -51,6 +51,7 @@ export const CardTemplateComponent = ({ initialData, onSubmit }) => {
             />
             <div id="cardFooter">
                 <input
+                    id="abilityName"
                     type="text"
                     name="abilityName"
                     value={data.abilityName}
@@ -58,16 +59,20 @@ export const CardTemplateComponent = ({ initialData, onSubmit }) => {
                     className="cardInput"
                     placeholder="Ability Name"
                 />
-                <input
-                    type="text"
+                <textarea
+                    id="abilityDescription"
                     name="abilityDescription"
                     value={data.abilityDescription}
                     onChange={handleChange}
                     className="cardInput"
                     placeholder="Ability Description"
+                    maxLength={108}
+                    cols={50}
+                    rows={4}
                 />
                 <input
                     type="text"
+                    id="tp"
                     name="tp"
                     value={data.tp}
                     onChange={handleChange}
