@@ -19,6 +19,9 @@ export const CardTemplateComponent = ({initialData, onSubmit}) => {
 
     return (
         <form id="cardBody" onSubmit={handleSubmit}>
+            <div id="cardImageContainer">
+                <img id="cardImage" src={data.image} alt="Card Image"/>
+            </div>
             <div id="cardHeader">
                 <input
                     type="text"
@@ -37,9 +40,7 @@ export const CardTemplateComponent = ({initialData, onSubmit}) => {
                     placeholder="HP"
                 />
             </div>
-            <div id="cardImageContainer">
-                <img id="cardImage" src={data.image} alt="Card Image"/>
-            </div>
+
             <input
                 type="text"
                 name="name"
@@ -70,15 +71,17 @@ export const CardTemplateComponent = ({initialData, onSubmit}) => {
                     cols={50}
                     rows={4}
                 />
-                <input
-                    type="text"
-                    id="tp"
-                    name="tp"
-                    value={data.tp}
-                    onChange={handleChange}
-                    className="cardInput"
-                    placeholder="TP"
-                />
+                <div id={"tpEncapsulation"}>
+                    <input
+                        type="text"
+                        id="tp"
+                        name="tp"
+                        value={data.tp}
+                        onChange={handleChange}
+                        className="cardInput"
+                        placeholder="TP"
+                    />
+                </div>
                 {/*<button type="submit" className="submitButton">Save</button>*/}
             </div>
         </form>

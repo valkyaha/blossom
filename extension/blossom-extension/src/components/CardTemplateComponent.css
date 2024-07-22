@@ -21,7 +21,7 @@
     color: white;
     position: absolute;
     top: 5px;
-    width: 30%;
+    width: 100%;
     z-index: 2;
 }
 
@@ -33,7 +33,7 @@
     border-radius: 3px;
     font-size: small;
     text-align: center;
-    width: 70px;
+    width: 5dvi;
 }
 
 #cardImageContainer {
@@ -96,9 +96,13 @@
     resize: none;
 }
 
-#tp {
+#tpEncapsulation{
+    width: 100%;
     display: flex;
-    margin-top: 5px;
+    justify-content: center;
+}
+
+#tp {
     width: 5%;
 }
 
