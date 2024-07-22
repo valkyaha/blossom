@@ -1,0 +1,132 @@
+#cardBody {
+    width: 200px;
+    height: 300px;
+    background-image: url("../static/CardTemplate.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    color: black;
+    font-family: sans-serif;
+    font-size: x-small;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#cardHeader {
+    display: flex;
+    justify-content: space-between;
+    padding: 2px 10px;
+    color: white;
+    position: absolute;
+    top: 5px;
+    width: 90%;
+    z-index: 2;
+}
+
+.cardInput {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: small;
+    text-align: center;
+    width: 5dvi;
+}
+
+#cardImageContainer {
+    height: 60%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    overflow: hidden;
+}
+
+#cardImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#templateImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+#name {
+    position: absolute;
+    font-size: medium;
+    left: 25px;
+    top: 62%;
+    height: 5%;
+    width: 70%;
+    text-align: center;
+    font-weight: bold;
+    color: white;
+    z-index: 3;
+    padding: 2px 5px;
+    border: none;
+}
+
+#cardFooter {
+    display: block;
+    align-items: center;
+    padding: 4px;
+    color: white;
+    position: absolute;
+    bottom: 10px;
+    width: 67%;
+    height: 25%;
+    left: 25px;
+    font-size: small;
+    z-index: 3;
+}
+
+#abilityName {
+    display: flex;
+    width: 100%;
+    margin-bottom: 3px;
+}
+
+#abilityDescription {
+    display: flex;
+    font-size: xx-small;
+    text-align: justify-all;
+    margin-bottom: 3px;
+    width: 100%;
+    height: 55%;
+    word-wrap: break-word;
+    word-break: break-all;
+    resize: none;
+}
+
+#tpEncapsulation {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#tp {
+    width: 5%;
+}
+
+.submitButton {
+    margin-top: 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    padding: 5px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.submitButton:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
