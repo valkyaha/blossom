@@ -11,6 +11,9 @@ var configuration = ConfigFile.new()
 @onready var type = $Type
 @onready var file_dialog = $FileDialog
 
+var websocket_url = "ws://localhost:8080/ws"
+var _client = WebSocketPeer.new()
+
 var card_image = null
 var card_name = ""
 var ability_name = ""

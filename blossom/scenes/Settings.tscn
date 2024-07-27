@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://c35x1ud887xj2"]
 
 [ext_resource type="Texture2D" uid="uid://duwjlxie60akw" path="res://resources/UI/Vector/Extra/icon_play_light.svg" id="1_au7u0"]
-[ext_resource type="Script" path="res://scenes/Settings.gd" id="1_c1y4u"]
+[ext_resource type="Script" path="res://scenes/scripts/Settings.gd" id="1_q2ye2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1n036"]
 bg_color = Color(0.666667, 0.607843, 0.721569, 1)
@@ -15,7 +15,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_c1y4u")
+script = ExtResource("1_q2ye2")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1

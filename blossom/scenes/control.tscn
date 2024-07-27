@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://SQLController.gd" id="1_ups75"]
 [ext_resource type="PackedScene" uid="uid://bl4r85rv0x8l4" path="res://scenes/CardPlaceholder.tscn" id="2_6ou7e"]
-[ext_resource type="Script" path="res://scenes/FileDialog.gd" id="3_7gd74"]
+[ext_resource type="Script" path="res://scenes/scripts/FileDialog.gd" id="3_7gd74"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
