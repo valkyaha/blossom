@@ -1,0 +1,139 @@
+[gd_scene load_steps=5 format=3 uid="uid://c35x1ud887xj2"]
+
+[ext_resource type="Texture2D" uid="uid://duwjlxie60akw" path="res://resources/UI/Vector/Extra/icon_play_light.svg" id="1_au7u0"]
+[ext_resource type="Script" path="res://scenes/Settings.gd" id="1_c1y4u"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1n036"]
+bg_color = Color(0.666667, 0.607843, 0.721569, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_uy4xm"]
+
+[node name="Settings" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_c1y4u")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1n036")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="Button" type="Button" parent="Panel/HBoxContainer"]
+layout_mode = 2
+icon = ExtResource("1_au7u0")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_right = 100.0
+offset_bottom = 333.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+alignment = 1
+
+[node name="ConexionLabel" type="Label" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+size_flags_vertical = 1
+text = "Twich connection"
+label_settings = SubResource("LabelSettings_uy4xm")
+
+[node name="ConexionStatusLabel" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Connect / Disconnect"
+
+[node name="ConexionStablished" type="CheckButton" parent="Panel/VBoxContainer"]
+layout_direction = 1
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="ChannelName" type="TextEdit" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+placeholder_text = "Set Channel name"
+
+[node name="VSeparator" type="HSeparator" parent="Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Local Folder Images" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="FileDialog" type="FileDialog" parent="Panel/VBoxContainer"]
+title = "Open a Directory"
+initial_position = 1
+size = Vector2i(454, 159)
+ok_button_text = "Select Current Folder"
+file_mode = 2
+access = 2
+
+[node name="Button" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Select Image Folder"
+
+[node name="VSeparator2" type="HSeparator" parent="Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="OtherSetttingLabel" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Other Settings"
+
+[node name="VolumeControl" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Volume
+"
+
+[node name="Volume" type="HSlider" parent="Panel/VBoxContainer"]
+layout_mode = 2
+value = 50.0
+tick_count = 1
+
+[node name="ResolutionControl" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Game Resolution"
+
+[node name="OptionButton" type="OptionButton" parent="Panel/VBoxContainer"]
+layout_mode = 2
+item_count = 11
+popup/item_0/text = "2560x1440"
+popup/item_0/id = 0
+popup/item_1/text = "1920x1080"
+popup/item_1/id = 1
+popup/item_2/text = "1366x768"
+popup/item_2/id = 2
+popup/item_3/text = "1280x720"
+popup/item_3/id = 3
+popup/item_4/text = "1920x1200"
+popup/item_4/id = 4
+popup/item_5/text = "1680x1050"
+popup/item_5/id = 5
+popup/item_6/text = "1440x900"
+popup/item_6/id = 6
+popup/item_7/text = "1280x800"
+popup/item_7/id = 7
+popup/item_8/text = "1024x768"
+popup/item_8/id = 8
+popup/item_9/text = "800x600"
+popup/item_9/id = 9
+popup/item_10/text = "640x480"
+popup/item_10/id = 10
+
+[connection signal="button_down" from="Panel/HBoxContainer/Button" to="." method="_on_button_button_down"]

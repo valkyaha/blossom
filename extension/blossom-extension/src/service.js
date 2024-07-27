@@ -1,8 +1,19 @@
 const sendCardData = async (channelId, data) => {
     try {
+
+        let twitchToken;
+        window.Twitch.ext.onAuthorized(function (auth) {
+            // console.log('The JWT that will be passed to the EBS is', auth.token);
+            console.log('The channel ID is', auth.channelId);
+            console.log('The opaque user ID is', auth.userId);
+            channelId = auth.channelId;
+            twitchToken = auth.token;
+        });
+
         const response = await fetch(`http://localhost:8080/cards/${channelId}`, {
             method: 'PUT', headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `${twitchToken}`
             },
             body: JSON.stringify(data)
         })
