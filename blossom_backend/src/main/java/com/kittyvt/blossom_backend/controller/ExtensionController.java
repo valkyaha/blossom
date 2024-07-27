@@ -1,7 +1,5 @@
 package com.kittyvt.blossom_backend.controller;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.interfaces.Claim;
 import com.kittyvt.blossom_backend.domain.Ability;
 import com.kittyvt.blossom_backend.domain.CardTemplate;
 import com.kittyvt.blossom_backend.domain.Type;
@@ -11,21 +9,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class ExtensionController {
 
-    Logger logger = LoggerFactory.getLogger(WebSocketHandler.class);
+    Logger logger = LoggerFactory.getLogger(ExtensionController.class);
 
     public ExtensionController(WebSocketHandler webSocketHandler) {
         this.webSocketHandler = webSocketHandler;
@@ -36,27 +28,28 @@ public class ExtensionController {
     @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/cards/{channelId}")
     public ResponseEntity<Object> putCards(@RequestBody CardTemplate cardTemplate, @PathVariable String channelId, @RequestHeader("Authorization") String token) {
+
         if (token == null || token.isEmpty()) {
             return new ResponseEntityBuilderResponse<>()
-                    .setStatus(HttpStatus.OK)
-                    .setMessage("NO CARD")
+                    .setStatus(HttpStatus.BAD_REQUEST)
+                    .setMessage("Missing Token")
                     .build();
         }
 
         logger.info(token);
 
-        JWT jwt = new JWT();
-        Map<String, Claim> test = jwt.decodeJwt(token).getClaims();
+        //JWT jwt = new JWT();
+        //Map<String, Claim> test = jwt.decodeJwt(token).getClaims();
 
-        Claim test2 = test.get("user_id");
-        test2.asString();
+        //Claim test2 = test.get("user_id");
+        //test2.asString();
 
         webSocketHandler.sendMessageToChannel(channelId, cardTemplate);
 
         return new ResponseEntityBuilderResponse<>()
                 .setStatus(HttpStatus.OK)
                 .setObjectResponse(cardTemplate)
-                .setMessage("Test")
+                .setMessage("Card added successfully")
                 .build();
     }
 

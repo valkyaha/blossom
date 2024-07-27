@@ -4,13 +4,14 @@ var websocket_url = "ws://localhost:8080/ws"
 var _client = WebSocketPeer.new()
 
 func _ready():
-	_client.connect_to_url(websocket_url)
+	_client.connect_to_url(websocket_url + "/123")
 	
 func _process(delta):
 	_client.poll()
 	var state = _client.get_ready_state()
 	if state == WebSocketPeer.STATE_OPEN:
 		while _client.get_available_packet_count():
+			print("Packet: ", _client.get_packet().get_string_from_utf8())
 			print("Packet: ", _client.get_packet())
 	elif state == WebSocketPeer.STATE_CLOSING:
 		pass

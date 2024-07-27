@@ -37,7 +37,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         String channelId = getChannelIdFromSession(session);
-        sessionsByChannel.remove(channelId);
+         sessionsByChannel.remove(channelId);
         logger.info("Connection closed: {} para el canal: {}", session.getId(), channelId);
     }
 
