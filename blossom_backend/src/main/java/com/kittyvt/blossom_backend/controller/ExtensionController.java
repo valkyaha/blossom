@@ -28,9 +28,9 @@ public class ExtensionController {
     public ResponseEntity<Object> getCardsAbility(@PathVariable String channelId) {
 
         List<Ability> abilities = new ArrayList<>();
-        abilities.add(new Ability(1L, "TEST", "TEST", 1, 1));
-        abilities.add(new Ability(1L, "TEST", "TEST", 1, 1));
-        abilities.add(new Ability(1L, "TEST", "TEST", 1, 1));
+        abilities.add(new Ability(1L, "Pitudo", "Tengo un dildo en forma de pito furry", 1, 1));
+        abilities.add(new Ability(2L, "Pitolargo", "Es mentira", 1, 1));
+        abilities.add(new Ability(3L, "Pitocorto", "Sisoy", 1, 1));
 
         return new ResponseEntityBuilderResponse<>()
                 .setStatus(HttpStatus.OK)
@@ -43,10 +43,10 @@ public class ExtensionController {
     public ResponseEntity<Object> getCardsType(@PathVariable String channelId) {
 
         List<Type> types = new ArrayList<>();
-        types.add(new Type(1L, "TEST"));
-        types.add(new Type(1L, "TEST"));
-        types.add(new Type(1L, "TEST"));
-        types.add(new Type(1L, "TEST"));
+        types.add(new Type(1L, "BOSS"));
+        types.add(new Type(1L, "AIR"));
+        types.add(new Type(1L, "Frier"));
+        types.add(new Type(1L, "HEHEHE"));
 
         return new ResponseEntityBuilderResponse<>()
                 .setStatus(HttpStatus.OK)

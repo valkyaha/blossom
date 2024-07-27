@@ -12,9 +12,12 @@ offset_top = 30.0
 offset_right = 740.0
 offset_bottom = 360.0
 
-[node name="CardSprite" type="Sprite2D" parent="."]
+[node name="CardSprite" type="TextureRect" parent="."]
 texture_filter = 1
-position = Vector2(543, 326)
+offset_left = 324.0
+offset_top = -1.0
+offset_right = 519.0
+offset_bottom = 283.0
 scale = Vector2(2.23333, 2.23333)
 texture = ExtResource("2_f2x5u")
 
