@@ -24,6 +24,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws IOException {
         String receivedMessage = (String) message.getPayload();
+        logger.info("Received message: {}", receivedMessage);
         session.sendMessage(new TextMessage("Received: " + receivedMessage));
     }
 
@@ -31,14 +32,14 @@ public class WebSocketHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         String channelId = getChannelIdFromSession(session);
         sessionsByChannel.put(channelId, session);
-        logger.info("Connection established: {} para el canal: {}", session.getId(), channelId);
+        logger.info("Connection established: {} for channel: {}", session.getId(), channelId);
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         String channelId = getChannelIdFromSession(session);
-         sessionsByChannel.remove(channelId);
-        logger.info("Connection closed: {} para el canal: {}", session.getId(), channelId);
+        sessionsByChannel.remove(channelId);
+        logger.info("Connection closed: {} for channel: {}", session.getId(), channelId);
     }
 
     public void sendMessageToChannel(String channelId, CardTemplate cardTemplate) {
@@ -49,7 +50,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
                 String message = mapper.writeValueAsString(cardTemplate);
                 session.sendMessage(new TextMessage(message));
             } catch (IOException e) {
-                logger.error(e.getMessage());
+                logger.error("Error sending message: {}", e.getMessage());
             }
         }
     }
@@ -59,7 +60,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
             String uri = Objects.requireNonNull(session.getUri()).toString();
             return uri.substring(uri.lastIndexOf("/") + 1);
         } catch (NullPointerException e) {
-            logger.error(e.getMessage());
+            logger.error("Error extracting channel ID from session: {}", e.getMessage());
         }
 
         return null;

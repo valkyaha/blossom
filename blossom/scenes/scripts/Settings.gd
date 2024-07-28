@@ -1,16 +1,49 @@
 extends Control
 
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	pass
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
 
-	
-func _on_button_button_down():
+
+func _on_settings_button_button_down():
 	get_parent().remove_child(self)
-	pass # Replace with function body.
+
+
+func _on_exit_button_button_down():
+	get_parent().remove_child(self)
+
+
+func _on_option_button_item_selected(index):
+
+	match index:
+		0:
+			get_window().set_size(Vector2(2560, 1440))
+		1:
+			get_window().set_size(Vector2(1920, 1080))
+		2:
+			get_window().set_size(Vector2(1366, 768))
+		3:
+			get_window().set_size(Vector2(1280, 720))
+		4:
+			get_window().set_size(Vector2(1920, 1200))
+		5:
+			get_window().set_size(Vector2(1680, 1050))
+		6:
+			get_window().set_size(Vector2(1440, 900))
+		7:
+			get_window().set_size(Vector2(1280, 800))
+		8:
+			get_window().set_size(Vector2(1024, 768))
+		9:
+			get_window().set_size(Vector2(800, 600))
+		10:
+			get_window().set_size(Vector2(640, 480))
+	center_window()
+	pass
+
+func center_window():
+	var screen_center = DisplayServer.screen_get_position() + DisplayServer.screen_get_size() / 2
+	var window_size = get_window().get_size_with_decorations()
+	get_window().set_position(screen_center - window_size /2)

@@ -1,0 +1,237 @@
+[gd_scene load_steps=17 format=3 uid="uid://c35x1ud887xj2"]
+
+[ext_resource type="Script" path="res://scenes/scripts/Settings.gd" id="1_830m3"]
+[ext_resource type="Texture2D" uid="uid://bb0tduqwwehl1" path="res://resources/pexels-mdsnmdsnmdsn-1831234.jpg" id="2_0ri3v"]
+[ext_resource type="Texture2D" uid="uid://ce2vga52ah4ep" path="res://resources/UI/PNG/Blue/Default/icon_checkmark.png" id="3_v2kty"]
+[ext_resource type="Texture2D" uid="uid://ds88yn1adxnfk" path="res://resources/UI/PNG/Blue/Default/icon_cross.png" id="4_bda8r"]
+[ext_resource type="Texture2D" uid="uid://dcdvt3umvu6ew" path="res://resources/UI/PNG/Blue/Default/button_rectangle_border.png" id="5_l18ge"]
+[ext_resource type="Texture2D" uid="uid://datbb121y32f5" path="res://resources/UI/PNG/Blue/Default/slide_horizontal_color_section.png" id="6_s8ueo"]
+[ext_resource type="Texture2D" uid="uid://c7cbpeyodun8w" path="res://resources/UI/PNG/Blue/Default/icon_outline_circle.png" id="7_hjvbf"]
+[ext_resource type="Texture2D" uid="uid://bt4rqd6ji6fer" path="res://resources/UI/PNG/Blue/Double/check_square_grey_checkmark.png" id="8_o0dql"]
+[ext_resource type="Texture2D" uid="uid://b22fuv3k1m2xn" path="res://resources/UI/PNG/Blue/Double/check_square_color_cross.png" id="9_p5hai"]
+[ext_resource type="Texture2D" uid="uid://duwjlxie60akw" path="res://resources/UI/Vector/Extra/icon_play_light.svg" id="10_x0ik6"]
+
+[sub_resource type="SystemFont" id="SystemFont_dcv3i"]
+
+[sub_resource type="SystemFont" id="SystemFont_r1ha7"]
+
+[sub_resource type="SystemFont" id="SystemFont_ip8rb"]
+
+[sub_resource type="SystemFont" id="SystemFont_w10og"]
+
+[sub_resource type="SystemFont" id="SystemFont_byan8"]
+
+[sub_resource type="Theme" id="Theme_itwln"]
+
+[node name="Settings" type="Control"]
+texture_filter = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_830m3")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+texture_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_0ri3v")
+expand_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+texture_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+texture_filter = 2
+layout_direction = 2
+layout_mode = 2
+theme_override_constants/separation = 80
+
+[node name="Separator" type="Control" parent="MarginContainer/VBoxContainer"]
+texture_filter = 2
+layout_mode = 2
+
+[node name="ConfigLaber" type="Label" parent="MarginContainer/VBoxContainer"]
+texture_filter = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = SubResource("SystemFont_dcv3i")
+theme_override_font_sizes/font_size = 40
+text = "Configuration"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GameButtons" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+texture_filter = 2
+layout_mode = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/GameButtons"]
+texture_filter = 2
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/GameButtons/VBoxContainer"]
+texture_filter = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = SubResource("SystemFont_r1ha7")
+theme_override_font_sizes/font_size = 20
+text = "Twitch Connection"
+
+[node name="StartButton" type="CheckButton" parent="MarginContainer/VBoxContainer/GameButtons/VBoxContainer"]
+texture_filter = 2
+custom_minimum_size = Vector2(120, 50)
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_ip8rb")
+theme_override_icons/checked = ExtResource("3_v2kty")
+theme_override_icons/unchecked = ExtResource("4_bda8r")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/GameButtons/VBoxContainer/StartButton"]
+texture_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = SubResource("SystemFont_w10og")
+theme_override_font_sizes/font_size = 20
+text = "Connect"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Resources" type="Label" parent="MarginContainer/VBoxContainer/GameButtons/VBoxContainer"]
+texture_filter = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = SubResource("SystemFont_r1ha7")
+theme_override_font_sizes/font_size = 20
+text = "Resources"
+
+[node name="LocalResources" type="Button" parent="MarginContainer/VBoxContainer/GameButtons/VBoxContainer"]
+texture_filter = 2
+custom_minimum_size = Vector2(120, 50)
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_ip8rb")
+icon = ExtResource("5_l18ge")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/GameButtons/VBoxContainer/LocalResources"]
+texture_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = SubResource("SystemFont_w10og")
+theme_override_font_sizes/font_size = 20
+text = "DECK"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VolumeLabel" type="Label" parent="MarginContainer/VBoxContainer/GameButtons/VBoxContainer"]
+texture_filter = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = SubResource("SystemFont_r1ha7")
+theme_override_font_sizes/font_size = 20
+text = "Volume"
+
+[node name="Volume" type="HSlider" parent="MarginContainer/VBoxContainer/GameButtons/VBoxContainer"]
+texture_filter = 2
+layout_mode = 2
+theme_override_icons/grabber = ExtResource("6_s8ueo")
+theme_override_icons/grabber_highlight = ExtResource("7_hjvbf")
+theme_override_icons/grabber_disabled = ExtResource("6_s8ueo")
+value = 50.0
+tick_count = 1
+
+[node name="ResolutionControl" type="Label" parent="MarginContainer/VBoxContainer/GameButtons/VBoxContainer"]
+texture_filter = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = SubResource("SystemFont_byan8")
+theme_override_font_sizes/font_size = 20
+text = "Game Resolution"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ResOptionSelector" type="OptionButton" parent="MarginContainer/VBoxContainer/GameButtons/VBoxContainer"]
+texture_filter = 2
+layout_mode = 2
+theme = SubResource("Theme_itwln")
+item_count = 11
+selected = 1
+popup/item_0/text = "2560x1440"
+popup/item_0/id = 0
+popup/item_1/text = "1920x1080"
+popup/item_1/id = 1
+popup/item_2/text = "1366x768"
+popup/item_2/id = 2
+popup/item_3/text = "1280x720"
+popup/item_3/id = 3
+popup/item_4/text = "1920x1200"
+popup/item_4/id = 4
+popup/item_5/text = "1680x1050"
+popup/item_5/id = 5
+popup/item_6/text = "1440x900"
+popup/item_6/id = 6
+popup/item_7/text = "1280x800"
+popup/item_7/id = 7
+popup/item_8/text = "1024x768"
+popup/item_8/id = 8
+popup/item_9/text = "800x600"
+popup/item_9/id = 9
+popup/item_10/text = "640x480"
+popup/item_10/id = 10
+
+[node name="OptionButtons" type="HBoxContainer" parent="MarginContainer/VBoxContainer/GameButtons/VBoxContainer"]
+texture_filter = 2
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="SettingsButton" type="Button" parent="MarginContainer/VBoxContainer/GameButtons/VBoxContainer/OptionButtons"]
+texture_filter = 2
+layout_mode = 2
+icon = ExtResource("8_o0dql")
+flat = true
+
+[node name="ExitButton" type="Button" parent="MarginContainer/VBoxContainer/GameButtons/VBoxContainer/OptionButtons"]
+texture_filter = 2
+layout_mode = 2
+icon = ExtResource("9_p5hai")
+flat = true
+
+[node name="Button" type="Button" parent="."]
+visible = false
+texture_filter = 2
+layout_mode = 2
+offset_right = 38.0
+offset_bottom = 42.0
+icon = ExtResource("10_x0ik6")
+
+[connection signal="item_selected" from="MarginContainer/VBoxContainer/GameButtons/VBoxContainer/ResOptionSelector" to="." method="_on_option_button_item_selected"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/GameButtons/VBoxContainer/OptionButtons/SettingsButton" to="." method="_on_settings_button_button_down"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/GameButtons/VBoxContainer/OptionButtons/ExitButton" to="." method="_on_exit_button_button_down"]
+[connection signal="button_down" from="Button" to="." method="_on_button_button_down"]

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Blossom"
-run/main_scene="res://Scenes/control.tscn"
+run/main_scene="res://Scenes/menu/GameMainScene.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -20,3 +20,4 @@ config/icon="res://icon.svg"
 window/size/viewport_width=1600
 window/size/viewport_height=900
 window/subwindows/embed_subwindows=false
+window/stretch/mode="viewport"

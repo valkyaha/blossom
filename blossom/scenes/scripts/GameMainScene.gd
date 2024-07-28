@@ -24,6 +24,11 @@ func _process(delta):
 
 
 func _on_settings_button_button_down():
-	var sceneToLoad = preload("res://scenes/Settings.tscn").instantiate()
+	var sceneToLoad = preload("res://scenes/menu/Settings.tscn").instantiate()
 	get_tree().root.add_child(sceneToLoad)
+	pass # Replace with function body.
+
+
+func _on_exit_button_button_down():
+	get_tree().quit(0)
 	pass # Replace with function body.

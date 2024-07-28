@@ -1,5 +1,7 @@
 package com.kittyvt.blossom_backend.controller;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.Claim;
 import com.kittyvt.blossom_backend.domain.Ability;
 import com.kittyvt.blossom_backend.domain.CardTemplate;
 import com.kittyvt.blossom_backend.domain.Type;
@@ -10,11 +12,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
+@RequestMapping("/cards")
 public class ExtensionController {
 
     Logger logger = LoggerFactory.getLogger(ExtensionController.class);
@@ -25,24 +32,32 @@ public class ExtensionController {
 
     private final WebSocketHandler webSocketHandler;
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PutMapping("/cards/{channelId}")
-    public ResponseEntity<Object> putCards(@RequestBody CardTemplate cardTemplate, @PathVariable String channelId, @RequestHeader("Authorization") String token) {
+    @CrossOrigin(origins = "*")
+    @PutMapping()
+    public ResponseEntity<Object> putCards(
+            @RequestBody CardTemplate cardTemplate,
+            @RequestHeader("Authorization") String token) {
 
-        if (token == null || token.isEmpty()) {
+        if (isValidToken(token))
             return new ResponseEntityBuilderResponse<>()
                     .setStatus(HttpStatus.BAD_REQUEST)
                     .setMessage("Missing Token")
                     .build();
+
+        JWT jwt = new JWT();
+        Map<String, Claim> jwtToken = jwt.decodeJwt(splitToken(token)).getClaims();
+
+        String channelId = jwtToken.get("channel_id").asString();
+        String userId = jwtToken.get("user_id").asString();
+
+        WebSocketSession session = getWebSocketSession(channelId);
+        if (session != null && session.isOpen()) {
+            try {
+                session.sendMessage(new TextMessage(cardTemplate.toString()));
+            } catch (IOException e) {
+                logger.error(e.getMessage());
+            }
         }
-
-        logger.info(token);
-
-        //JWT jwt = new JWT();
-        //Map<String, Claim> test = jwt.decodeJwt(token).getClaims();
-
-        //Claim test2 = test.get("user_id");
-        //test2.asString();
 
         webSocketHandler.sendMessageToChannel(channelId, cardTemplate);
 
@@ -53,8 +68,20 @@ public class ExtensionController {
                 .build();
     }
 
-    @GetMapping("/cards/{channelId}/abilities")
-    public ResponseEntity<Object> getCardsAbility(@PathVariable String channelId) {
+    @CrossOrigin(origins = "*")
+    @GetMapping("/abilities")
+    public ResponseEntity<Object> getCardsAbility(@RequestHeader("Authorization") String token) {
+
+        if (isValidToken(token)) return new ResponseEntityBuilderResponse<>()
+                .setStatus(HttpStatus.BAD_REQUEST)
+                .setMessage("Missing Token")
+                .build();
+
+        JWT jwt = new JWT();
+        Map<String, Claim> jwtToken = jwt.decodeJwt(splitToken(token)).getClaims();
+        String channelId = jwtToken.get("channel_id").asString();
+        String userId = jwtToken.get("user_id").asString();
+
         List<Ability> abilities = new ArrayList<>();
         abilities.add(new Ability(1L, "Pitudo", "Tengo un dildo en forma de pito furry", 1, 1));
         abilities.add(new Ability(2L, "Pitolargo", "Es mentira", 1, 1));
@@ -67,8 +94,19 @@ public class ExtensionController {
                 .build();
     }
 
-    @GetMapping("/cards/{channelId}/type")
-    public ResponseEntity<Object> getCardsType(@PathVariable String channelId) {
+    @GetMapping("/type")
+    public ResponseEntity<Object> getCardsType(@RequestHeader("Authorization") String token) {
+
+        if (isValidToken(token)) return new ResponseEntityBuilderResponse<>()
+                .setStatus(HttpStatus.BAD_REQUEST)
+                .setMessage("Missing Token")
+                .build();
+
+        JWT jwt = new JWT();
+        Map<String, Claim> jwtToken = jwt.decodeJwt(splitToken(token)).getClaims();
+        String channelId = jwtToken.get("channel_id").asString();
+        String userId = jwtToken.get("user_id").asString();
+
         List<Type> types = new ArrayList<>();
         types.add(new Type(1L, "BOSS"));
         types.add(new Type(1L, "AIR"));
@@ -82,9 +120,18 @@ public class ExtensionController {
                 .build();
     }
 
-    @GetMapping("/cards/{channelId}")
-    public ResponseEntity<Object> getCards(@PathVariable String channelId, @RequestHeader("Authorization") String token) {
-        System.out.println(token);
+    @GetMapping("/all")
+    public ResponseEntity<Object> getCards(@RequestHeader("Authorization") String token) {
+
+        if (isValidToken(token)) return new ResponseEntityBuilderResponse<>()
+                .setStatus(HttpStatus.BAD_REQUEST)
+                .setMessage("Missing Token")
+                .build();
+
+        JWT jwt = new JWT();
+        Map<String, Claim> jwtToken = jwt.decodeJwt(splitToken(token)).getClaims();
+        String channelId = jwtToken.get("channel_id").asString();
+        String userId = jwtToken.get("user_id").asString();
 
         List<CardTemplate> cards = new ArrayList<>();
         cards.add(
@@ -118,8 +165,19 @@ public class ExtensionController {
                 .build();
     }
 
-    @GetMapping("/cards/{channelId}/{userId}")
-    public ResponseEntity<Object> getCard(@PathVariable String channelId, @PathVariable String userId) {
+    @GetMapping()
+    public ResponseEntity<Object> getCard(@RequestHeader("Authorization") String token) {
+
+        if (isValidToken(token)) return new ResponseEntityBuilderResponse<>()
+                .setStatus(HttpStatus.BAD_REQUEST)
+                .setMessage("Missing Token")
+                .build();
+
+        JWT jwt = new JWT();
+        Map<String, Claim> jwtToken = jwt.decodeJwt(splitToken(token)).getClaims();
+        String channelId = jwtToken.get("channel_id").asString();
+        String userId = jwtToken.get("user_id").asString();
+
         CardTemplate cardTemplate = new CardTemplate(
                 10,
                 20,
@@ -138,5 +196,17 @@ public class ExtensionController {
                 .setObjectResponse(cardTemplate)
                 .setMessage("Test")
                 .build();
+    }
+
+    private WebSocketSession getWebSocketSession(String channelId) {
+        return null;
+    }
+
+    private static boolean isValidToken(String token) {
+        return token == null || token.isEmpty();
+    }
+
+    private String splitToken(String token) {
+        return token.split(" ")[1];
     }
 }
