@@ -11,17 +11,21 @@ var card_damage = ""
 var card_hp = ""
 var card_type = ""
 
+func database_connection():
+	database = SQLite.new()
+	database.path = "res://data/data.db"
+	if not database.open_db():
+		printerr("Failed to open database.")
+	return database
+
 func _ready():
 	var err = configuration.load("user://settings.cfg")
 	if err != OK:
 		configuration.set_value("General", "resource_image_folder", "")
 		configuration.save("user://settings.cfg")
 		return
+	database_connection()
 
-	database = SQLite.new()
-	database.path = "res://data/data.db"
-	if not database.open_db():
-		printerr("Failed to open database.")
 	pass
 
 func insert_card(data):
@@ -116,16 +120,3 @@ func test_update_card():
 		"image": null
 	}
 	update_card(data, 1)
-
-func test_select_card():
-	var card = select_card(1)
-	print(card)
-
-func test_delete_card():
-	delete_card(1)
-
-func test_update_image():
-	update_image(1, "res://resources/CardTemplate/Cards_color1/Civilian_card_back/details/Background.png")
-
-func test_set_image_folder():
-	set_image_folder("user://images")

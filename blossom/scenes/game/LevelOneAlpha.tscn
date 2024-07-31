@@ -1,0 +1,78 @@
+[gd_scene load_steps=4 format=3 uid="uid://g64b14052tpv"]
+
+[ext_resource type="PackedScene" uid="uid://dg51wayy4vh2v" path="res://scenes/game/gui/GUI_BossFight.tscn" id="1_xugvt"]
+[ext_resource type="PackedScene" uid="uid://bl4r85rv0x8l4" path="res://scenes/CardPlaceholder.tscn" id="2_ukrqe"]
+
+[sub_resource type="GDScript" id="GDScript_f3of8"]
+script/source = "extends Node2D
+
+
+@onready var timer = $Timer
+@onready var card_placeholder = $CurrentCard
+const DataController = preload(\"res://scenes/scripts/DataController.gd\")
+var database: SQLite
+var cards: Array
+
+var card_id
+var card_image
+var card_name
+var card_damage
+var card_hp
+var ability_name
+var ability_description
+var card_type
+
+var count = 0
+
+func _ready():
+	database = DataController.new().database_connection()
+	_get_cards_data()
+
+func _get_cards_data():
+	cards = database.select_rows(\"cards\", \"\", [\"*\"])
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed(\"ui_accept\"):
+		count += 1
+		if(count >= cards.size()):
+			count = 0
+		_create_deck_on_card_size(count)
+
+func _create_deck_on_card_size(i):
+	var card = cards[i]
+	card_id = i
+	card_name = card[\"name\"]
+	_get_card_type(card)
+	_get_card_ability(card)
+	card_placeholder.data(card_id, card_image, card_name, ability_name, ability_description, card_damage, card_hp, card_type)
+
+
+func _get_card_type(card):
+	var card_type_result = database.select_rows(\"type\", \"id = \" + str(card[\"type\"]), [\"*\"])
+	
+	if card_type_result.size() > 0:
+		card_type = card_type_result[0][\"type\"]
+		card_damage = str(card[\"damage\"])
+		card_hp = str(card[\"health\"])
+
+
+func _get_card_ability(card):
+	var ability_result = database.select_rows(\"ability\", \"id = \" + str(card[\"ability\"]), [\"*\"])
+	if ability_result.size() > 0:
+		ability_name = ability_result[0][\"ability_name\"]
+		ability_description = ability_result[0][\"effect\"]
+"
+
+[node name="GameScene" type="Node2D"]
+script = SubResource("GDScript_f3of8")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="GUI_Boss" parent="CanvasLayer" instance=ExtResource("1_xugvt")]
+
+[node name="CurrentCard" parent="." instance=ExtResource("2_ukrqe")]
+position = Vector2(71, 114)
+
+[node name="Timer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 10.0

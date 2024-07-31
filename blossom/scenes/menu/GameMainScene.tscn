@@ -145,5 +145,6 @@ layout_mode = 2
 icon = ExtResource("6_egynt")
 flat = true
 
+[connection signal="button_down" from="MarginContainer/VBoxContainer/GameButtons/VBoxContainer/StartButton" to="." method="_on_start_button_button_down"]
 [connection signal="button_down" from="MarginContainer/VBoxContainer/GameButtons/VBoxContainer/OptionButtons/SettingsButton" to="." method="_on_settings_button_button_down"]
 [connection signal="button_down" from="MarginContainer/VBoxContainer/GameButtons/VBoxContainer/OptionButtons/ExitButton" to="." method="_on_exit_button_button_down"]

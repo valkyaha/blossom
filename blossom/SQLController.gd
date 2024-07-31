@@ -78,13 +78,13 @@ func _on_select_button_down():
 		ability_name = ability_result[0]["ability_name"]
 		ability_description = ability_result[0]["effect"]
 
-	if card["image"] != null:
-		var image = Image.new()
-		image.load_png_from_buffer(card["image"])
-		var texture = ImageTexture.create_from_image(image)
-		card_image = texture
-	else:
-		card_image = null
+#	if card["image"] != null:
+#		var image = Image.new()
+#		image.load_png_from_buffer(card["image"])
+#		var texture = ImageTexture.create_from_image(image)
+#		card_image = texture
+#	else:
+	card_image = null
 	
 	card_placeholder.data(card_id, card_image, card_name, ability_name, ability_description, card_damage, card_hp, card_type)
 	pass

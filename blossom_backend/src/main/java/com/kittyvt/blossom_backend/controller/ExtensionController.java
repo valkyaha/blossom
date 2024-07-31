@@ -2,6 +2,7 @@ package com.kittyvt.blossom_backend.controller;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.Claim;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kittyvt.blossom_backend.domain.Ability;
 import com.kittyvt.blossom_backend.domain.CardTemplate;
 import com.kittyvt.blossom_backend.domain.Type;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/cards")
@@ -83,9 +85,7 @@ public class ExtensionController {
         String userId = jwtToken.get("user_id").asString();
 
         List<Ability> abilities = new ArrayList<>();
-        abilities.add(new Ability(1L, "Pitudo", "Tengo un dildo en forma de pito furry", 1, 1));
-        abilities.add(new Ability(2L, "Pitolargo", "Es mentira", 1, 1));
-        abilities.add(new Ability(3L, "Pitocorto", "Sisoy", 1, 1));
+
 
         return new ResponseEntityBuilderResponse<>()
                 .setStatus(HttpStatus.OK)
@@ -165,37 +165,42 @@ public class ExtensionController {
                 .build();
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping()
     public ResponseEntity<Object> getCard(@RequestHeader("Authorization") String token) {
-
-        if (isValidToken(token)) return new ResponseEntityBuilderResponse<>()
-                .setStatus(HttpStatus.BAD_REQUEST)
-                .setMessage("Missing Token")
-                .build();
+        if (isValidToken(token)) {
+            return new ResponseEntityBuilderResponse<>()
+                    .setStatus(HttpStatus.BAD_REQUEST)
+                    .setMessage("Missing Token")
+                    .build();
+        }
 
         JWT jwt = new JWT();
         Map<String, Claim> jwtToken = jwt.decodeJwt(splitToken(token)).getClaims();
         String channelId = jwtToken.get("channel_id").asString();
         String userId = jwtToken.get("user_id").asString();
 
-        CardTemplate cardTemplate = new CardTemplate(
-                10,
-                20,
-                "https://www.ikea.com/es/es/images/products/blahaj-peluche-tiburon__0710175_pe727378_s5.jpg?f=xl",
-                "Shikanoko Noko",
-                new Ability(1L,
-                        "Shikanoko",
-                        "Shikanoko noko koshi tan tan shikanoko noko koshi tan tan shikanoko noko koshi tan tan shikanoko noko koshi tan tan",
-                        1,
-                        1),
-                new Type(1L, "5")
-        );
+        try {
+            CompletableFuture<String> futureResponse = webSocketHandler.sendMessageToChannelAndWait(channelId, "GET_CARD");
 
-        return new ResponseEntityBuilderResponse<>()
-                .setStatus(HttpStatus.OK)
-                .setObjectResponse(cardTemplate)
-                .setMessage("Test")
-                .build();
+            // Wait for the WebSocket response (timeout can be added as needed)
+            String cardData = futureResponse.join(); // You can use `get(long timeout, TimeUnit unit)` to set a timeout
+
+            // Process the response
+            CardTemplate cardTemplate = new ObjectMapper().readValue(cardData, CardTemplate.class);
+
+            return new ResponseEntityBuilderResponse<>()
+                    .setStatus(HttpStatus.OK)
+                    .setObjectResponse(cardTemplate)
+                    .setMessage("Card data retrieved successfully")
+                    .build();
+        } catch (Exception e) {
+            logger.error("Error retrieving card data: {}", e.getMessage());
+            return new ResponseEntityBuilderResponse<>()
+                    .setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .setMessage("Error retrieving card data")
+                    .build();
+        }
     }
 
     private WebSocketSession getWebSocketSession(String channelId) {

@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://g64b14052tpv"]
+
+[ext_resource type="PackedScene" uid="uid://dg51wayy4vh2v" path="res://scenes/game/gui/GUI_BossFight.tscn" id="1_xugvt"]
+
+[sub_resource type="GDScript" id="GDScript_f3of8"]
+script/source = "extends Node2D
+
+const CARD_PLACEHOLDER = preload(\"res://scenes/CardPlaceholder.tscn\")
+const DataController = preload(\"res://scenes/scripts/DataController.gd\")
+var database: SQLite
+var cards: Array
+
+func _ready():
+	database = DataController.new().database_connection()
+	_create_deck_on_card_size()
+	_get_cards_data()
+
+func _get_cards_data():
+	cards = database.select_rows(\"cards\", \"\", [\"*\"])
+	_create_deck_on_card_size()
+
+func _create_deck_on_card_size():
+	
+	for i in cards.size():
+		CARD_PLACEHOLDER.can_instantiate()
+		add_child(CARD_PLACEHOLDER)
+	
+	for i in cards.size():
+		var card = cards[i]
+		var card_type_result = database.select_rows(\"type\", \"id = \" + str(card[\"type\"]), [\"*\"])
+		print(card_type_result)
+"
+
+[node name="GameScene" type="Node2D"]
+script = SubResource("GDScript_f3of8")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="GUI_Boss" parent="CanvasLayer" instance=ExtResource("1_xugvt")]

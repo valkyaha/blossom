@@ -1,0 +1,41 @@
+[gd_scene load_steps=4 format=3 uid="uid://dg51wayy4vh2v"]
+
+[ext_resource type="Script" path="res://scenes/game/gui/scripts/GUI_BossFight.gd" id="1_jyh74"]
+[ext_resource type="Texture2D" uid="uid://bs07eej4pjm73" path="res://resources/UI/ProgressBars/pngs/blue/meter_text_background_blue.png" id="2_g7781"]
+[ext_resource type="Texture2D" uid="uid://doyeh70kpy1ld" path="res://resources/UI/ProgressBars/pngs/blue/meter_bar_center-repeating_blue.png" id="3_recmp"]
+
+[node name="GUI_Boss" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jyh74")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="MarginContainer"]
+layout_mode = 2
+value = 100.0
+nine_patch_stretch = true
+texture_over = ExtResource("2_g7781")
+texture_progress = ExtResource("3_recmp")
+
+[node name="BossBar" type="ProgressBar" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+value = 100.0
+
+[node name="Label" type="Label" parent="MarginContainer"]
+layout_mode = 2
