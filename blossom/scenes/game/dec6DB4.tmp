@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://cfcwrgemkoxe2"]
+
+[ext_resource type="Script" path="res://scenes/game/deck_viewer.gd" id="1_1vvm8"]
+[ext_resource type="PackedScene" uid="uid://ckgeh5ry7pb2d" path="res://scenes/game/placeholders/Card.tscn" id="2_58apv"]
+
+[node name="DeckViewer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1vvm8")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 100
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 50
+theme_override_constants/v_separation = 35
+columns = 6
+
+[node name="CardPlaceholder" parent="MarginContainer/GridContainer" instance=ExtResource("2_58apv")]
+layout_mode = 2
+
+[connection signal="ready" from="." to="." method="_on_ready"]

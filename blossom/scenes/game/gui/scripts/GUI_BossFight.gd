@@ -1,5 +1,5 @@
 extends Control
-const MAX_HEALTH = 5
+const MAX_HEALTH = 1000
 var health = MAX_HEALTH
 
 @onready var label
@@ -12,12 +12,9 @@ func _ready() -> void:
 func set_health_bar() -> void:
 	boss_bar.value = health
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_accept"):
-		damage()
 
-func damage() -> void:
-	health -= 1
+func card_damage_deal(card_damage):
+	health -= card_damage
 	if health < 0:
 		health = MAX_HEALTH
 	set_health_bar()

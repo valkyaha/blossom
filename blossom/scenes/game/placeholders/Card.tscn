@@ -1,0 +1,89 @@
+[gd_scene load_steps=4 format=3 uid="uid://ckgeh5ry7pb2d"]
+
+[ext_resource type="Texture2D" uid="uid://b1i4eaq3it3ia" path="res://resources/CardTemplate/Cards_color1/Civilian_card_back/Civilian_card_back.png" id="1_tm65i"]
+[ext_resource type="Script" path="res://scenes/game/placeholders/script/Card.gd" id="2_adrvn"]
+[ext_resource type="Texture2D" uid="uid://d10a03gjcq65q" path="res://resources/CardTemplate/Cards_color1/Civilian_card_version3/Civilian_card_version3.png" id="2_knwst"]
+
+[node name="CardTemplate" type="TextureRect"]
+texture = ExtResource("1_tm65i")
+script = ExtResource("2_adrvn")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TemplateCard" type="TextureRect" parent="PanelContainer"]
+layout_mode = 2
+texture = ExtResource("2_knwst")
+
+[node name="HFlowContainer" type="HFlowContainer" parent="PanelContainer/TemplateCard"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 31.0
+grow_horizontal = 2
+alignment = 1
+
+[node name="DMGLabel" type="Label" parent="PanelContainer/TemplateCard/HFlowContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "DMG"
+uppercase = true
+
+[node name="HPLabel" type="Label" parent="PanelContainer/TemplateCard/HFlowContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "DMG"
+uppercase = true
+
+[node name="CardName" type="Label" parent="PanelContainer/TemplateCard"]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 170.0
+offset_right = 172.0
+offset_bottom = 194.0
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 10
+text = "CARDO NAME"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CardAbilityDesc" type="RichTextLabel" parent="PanelContainer/TemplateCard"]
+layout_mode = 0
+offset_left = 27.0
+offset_top = 218.0
+offset_right = 168.0
+offset_bottom = 260.0
+size_flags_horizontal = 4
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 9
+text = "Des"
+
+[node name="CardAbilityName" type="Label" parent="PanelContainer/TemplateCard"]
+layout_mode = 0
+offset_left = 27.0
+offset_top = 197.0
+offset_right = 169.0
+offset_bottom = 222.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 14
+text = "ABILITY"
+vertical_alignment = 1
+text_overrun_behavior = 3
+
+[node name="TypeLabel" type="Label" parent="PanelContainer/TemplateCard"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "TP"
+horizontal_alignment = 1

@@ -1,6 +1,6 @@
 [gd_scene load_steps=17 format=3 uid="uid://c35x1ud887xj2"]
 
-[ext_resource type="Script" path="res://scenes/scripts/Settings.gd" id="1_830m3"]
+[ext_resource type="Script" path="res://scenes/menu/scripts/Settings.gd" id="1_830m3"]
 [ext_resource type="Texture2D" uid="uid://bb0tduqwwehl1" path="res://resources/pexels-mdsnmdsnmdsn-1831234.jpg" id="2_0ri3v"]
 [ext_resource type="Texture2D" uid="uid://ca2taq3ocrh3w" path="res://resources/UI/PNG/Blue/Default/check_square_color_checkmark.png" id="3_sehaf"]
 [ext_resource type="Texture2D" uid="uid://ce2vga52ah4ep" path="res://resources/UI/PNG/Blue/Default/icon_checkmark.png" id="3_v2kty"]
@@ -244,6 +244,7 @@ offset_right = 38.0
 offset_bottom = 42.0
 icon = ExtResource("10_x0ik6")
 
+[connection signal="pressed" from="MarginContainer/VBoxContainer/GameButtons/VBoxContainer/HBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="item_selected" from="MarginContainer/VBoxContainer/GameButtons/VBoxContainer/ResOptionSelector" to="." method="_on_option_button_item_selected"]
 [connection signal="button_down" from="MarginContainer/VBoxContainer/GameButtons/VBoxContainer/OptionButtons/SettingsButton" to="." method="_on_settings_button_button_down"]
 [connection signal="button_down" from="MarginContainer/VBoxContainer/GameButtons/VBoxContainer/OptionButtons/ExitButton" to="." method="_on_exit_button_button_down"]

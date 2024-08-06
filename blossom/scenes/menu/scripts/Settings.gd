@@ -1,6 +1,12 @@
 extends Control
+var configuration = ConfigFile.new()
 
 func _ready():
+	var err = configuration.load("user://settings.cfg")
+	if err != OK:
+		configuration.set_value("General", "resource_image_folder", "")
+		configuration.save("user://settings.cfg")
+		return
 	pass
 
 func _process(delta):
@@ -47,3 +53,7 @@ func center_window():
 	var screen_center = DisplayServer.screen_get_position() + DisplayServer.screen_get_size() / 2
 	var window_size = get_window().get_size_with_decorations()
 	get_window().set_position(screen_center - window_size /2)
+
+
+func _on_save_button_pressed():
+	pass

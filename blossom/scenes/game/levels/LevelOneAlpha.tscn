@@ -1,0 +1,208 @@
+[gd_scene load_steps=4 format=3 uid="uid://g64b14052tpv"]
+
+[ext_resource type="PackedScene" uid="uid://dg51wayy4vh2v" path="res://scenes/game/gui/GUI_BossFight.tscn" id="1_xugvt"]
+[ext_resource type="PackedScene" uid="uid://ckgeh5ry7pb2d" path="res://scenes/game/placeholders/Card.tscn" id="3_d5ge2"]
+
+[sub_resource type="GDScript" id="GDScript_f3of8"]
+script/source = "extends Node2D
+
+@onready var card_template = $CardTemplate
+@onready var gui_boss = $CanvasLayer/GUI_Boss
+@onready var timer = $Timer
+@onready var card_placeholder = $CardTemplate
+
+
+var database: SQLite
+var websocket_url = \"ws://localhost:8080/ws\"
+var _client = WebSocketPeer.new()
+
+var CHANNEL_ID
+var user_id
+var cards: Array
+
+var card_id
+var card_image
+var card_name
+var card_damage
+var card_hp
+var ability_name
+var ability_description
+var card_type
+
+var count = 0
+
+func _ready():
+	_get_userdata_()
+	database = SQLite.new()
+	database.path = \"res://data/data.db\"
+	if not database.open_db():
+		printerr(\"Failed to open database.\")
+	_client.connect_to_url(websocket_url + \"/\" + CHANNEL_ID)
+	_get_cards_data()
+
+func _get_cards_data():
+	cards = database.select_rows(\"cards\", \"\", [\"*\"])
+
+func _create_deck_on_card_size(i):
+	var card = cards[i]
+	card_id = i
+	card_name = card[\"name\"]
+	_get_card_type(card)
+	_get_card_ability(card)
+	card_template.data(card_id, card_image, card_name, ability_name, ability_description, card_damage, card_hp, card_type)
+
+
+func _get_card_type(card):
+	var card_type_result = database.select_rows(\"type\", \"id = \" + str(card[\"type\"]), [\"*\"])
+	
+	if card_type_result.size() > 0:
+		card_type = card_type_result[0][\"type\"]
+		card_damage = str(card[\"damage\"])
+		card_hp = str(card[\"health\"])
+
+
+func _get_card_ability(card):
+	var ability_result = database.select_rows(\"ability\", \"id = \" + str(card[\"ability\"]), [\"*\"])
+	if ability_result.size() > 0:
+		ability_name = ability_result[0][\"ability_name\"]
+		ability_description = ability_result[0][\"effect\"]
+	return ability_result
+
+
+func _on_timer_timeout():
+	count += 1
+	if (count >= cards.size()):
+		count = 0
+	_create_deck_on_card_size(count)
+	gui_boss.card_damage_deal(int(card_damage))
+
+func _process(delta):
+	_client.poll()
+	var state = _client.get_ready_state()
+	
+	if state == WebSocketPeer.STATE_OPEN:
+		while _client.get_available_packet_count() > 0:
+			var packet = _client.get_packet().get_string_from_utf8()
+			if not packet.is_empty():
+				print(\"Received packet: \", packet)
+				get_card_based_on_state_machine(packet)
+	
+	elif state == WebSocketPeer.STATE_CLOSING:
+		pass
+	
+	elif state == WebSocketPeer.STATE_CLOSED:
+		var code = _client.get_close_code()
+		var reason = _client.get_close_reason()
+		print(\"WebSocket closed with code: %d, reason: %s. Clean: %s\" % [code, reason, code != -1])
+		set_process(false)
+
+func get_cards_from_database(card_id_request):
+	var data = { 
+		\"userId\": \"\",
+		\"dmg\": \"\",
+		\"hp\": \"\",
+		\"image\": \"\",
+		\"name\": \"\",
+		\"ability\": {
+			\"id\": \"\",
+			\"ability_name\": \"\",
+			\"effect\": \"\",
+			\"damage\": \"\",
+			\"buff\": \"\",
+			},
+			\"type\": {
+				\"id\": \"\",
+				\"type\": \"\"
+				}
+		}
+	data[\"userId\"] = user_id
+	var cards = database.select_rows(\"cards\", \"id = \" + str(card_id_request), [\"*\"])
+	
+	if cards.size() == 0:
+		return null
+	
+	var card = cards[0]
+	data[\"name\"] = card[\"name\"]
+	data[\"dmg\"] = str(card[\"damage\"])
+	data[\"hp\"] = str(card[\"health\"])
+	
+	var card_type_result = database.select_rows(\"type\", \"id = \" + str(card[\"type\"]), [\"*\"])
+	if card_type_result.size() > 0:
+		_get_card_type(card)
+		var card_type = card_type_result[0]
+		data[\"type\"][\"id\"] = str(card_type[\"id\"])
+		data[\"type\"][\"type\"] = card_type[\"type\"]
+		
+		var ability_result = _get_card_ability(card)[0]
+		if ability_result.size() > 0:
+			_mapper_ability(data, ability_result)
+		return data
+
+
+func get_card_based_on_state_machine(packet):
+	var user = database.select_rows(\"users\", \"id = \" + str(user_id), [\"*\"])
+	var card_id = str(user[0][\"card_id\"])
+
+	if packet.contains(\"GET_CARD_\" + CHANNEL_ID + \"_\" + user_id):
+		var card = get_cards_from_database(card_id)
+		_client.send_text(str(card))
+
+	if packet.contains(\"GET_ALL_CARDS\"):
+		_client.send_text(\"null\")
+		
+	if packet.contains(\"GET_TYPE_\" + CHANNEL_ID):
+		var type = get_type_from_database()
+		_client.send_text(str(type))
+		
+	if packet.contains(\"GET_ABILITY_\" + CHANNEL_ID):
+		var ability = get_abilities_from_database()
+		_client.send_text(str(ability))
+	
+	if packet.contains(\"CREATE_ABILITY\"):
+		_client.send_text(\"null\")
+				
+	if packet.contains(\"CREATE_TYPE\"):
+		_client.send_text(\"null\")
+		
+	if packet.contains(\"CREATE_CARD\"):
+		_client.send_text(\"null\")
+
+func get_abilities_from_database():
+	var ability = database.select_rows(\"ability\", \"\", [\"*\"])
+	return ability
+
+func get_type_from_database():
+	var type = database.select_rows(\"type\", \"\", [\"*\"])
+	return type
+
+func _mapper_ability(data, ability_result):
+	data[\"ability\"][\"id\"] = str(ability_result[\"id\"])
+	data[\"ability\"][\"ability_name\"] = ability_result[\"ability_name\"]
+	data[\"ability\"][\"effect\"] = ability_result[\"effect\"]
+	data[\"ability\"][\"damage\"] = str(ability_result[\"damage\"])
+	data[\"ability\"][\"buff\"] = str(ability_result[\"buff\"])
+
+func _get_userdata_():
+	CHANNEL_ID = \"670546954\"
+	user_id = \"670546954\"
+"
+
+[node name="GameScene" type="Node2D"]
+script = SubResource("GDScript_f3of8")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="GUI_Boss" parent="CanvasLayer" instance=ExtResource("1_xugvt")]
+
+[node name="Timer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 5.0
+autostart = true
+
+[node name="CardTemplate" parent="." instance=ExtResource("3_d5ge2")]
+offset_left = 68.0
+offset_top = 151.0
+offset_right = 263.0
+offset_bottom = 435.0
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

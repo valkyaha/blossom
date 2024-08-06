@@ -96,27 +96,3 @@ func set_image_folder(dir):
 	configuration.set_value("General", "resource_image_folder", dir)
 	configuration.save("user://settings.cfg")
 	pass
-
-# Test functions
-func test_insert_card():
-	var data = {
-		"name": "Test Card",
-		"ability": "Test Ability",
-		"type": 1,
-		"damage": 10,
-		"health": 5,
-		"image": null
-	}
-	insert_card(data)
-
-func test_update_card():
-	var data = {
-		"id": 1,
-		"name": "Updated Card",
-		"ability": "Updated Ability",
-		"type": 2,
-		"damage": 20,
-		"health": 10,
-		"image": null
-	}
-	update_card(data, 1)

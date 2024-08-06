@@ -2,6 +2,7 @@ package com.kittyvt.blossom_backend.controller;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.Claim;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kittyvt.blossom_backend.domain.Ability;
 import com.kittyvt.blossom_backend.domain.CardTemplate;
@@ -40,7 +41,7 @@ public class ExtensionController {
             @RequestBody CardTemplate cardTemplate,
             @RequestHeader("Authorization") String token) {
 
-        if (isValidToken(token))
+        if (isToken(token))
             return new ResponseEntityBuilderResponse<>()
                     .setStatus(HttpStatus.BAD_REQUEST)
                     .setMessage("Missing Token")
@@ -51,8 +52,9 @@ public class ExtensionController {
 
         String channelId = jwtToken.get("channel_id").asString();
         String userId = jwtToken.get("user_id").asString();
+        Result result = new Result(channelId, userId);
 
-        WebSocketSession session = getWebSocketSession(channelId);
+        WebSocketSession session = getWebSocketSession(result.channelId(), result.userId());
         if (session != null && session.isOpen()) {
             try {
                 session.sendMessage(new TextMessage(cardTemplate.toString()));
@@ -61,7 +63,7 @@ public class ExtensionController {
             }
         }
 
-        webSocketHandler.sendMessageToChannel(channelId, cardTemplate);
+        webSocketHandler.sendMessageToChannel(result.channelId(), cardTemplate);
 
         return new ResponseEntityBuilderResponse<>()
                 .setStatus(HttpStatus.OK)
@@ -73,96 +75,112 @@ public class ExtensionController {
     @CrossOrigin(origins = "*")
     @GetMapping("/abilities")
     public ResponseEntity<Object> getCardsAbility(@RequestHeader("Authorization") String token) {
-
-        if (isValidToken(token)) return new ResponseEntityBuilderResponse<>()
-                .setStatus(HttpStatus.BAD_REQUEST)
-                .setMessage("Missing Token")
-                .build();
+        if (isValidToken(token)) {
+            return new ResponseEntityBuilderResponse<>()
+                    .setStatus(HttpStatus.BAD_REQUEST)
+                    .setMessage("Missing Token")
+                    .build();
+        }
 
         JWT jwt = new JWT();
         Map<String, Claim> jwtToken = jwt.decodeJwt(splitToken(token)).getClaims();
         String channelId = jwtToken.get("channel_id").asString();
-        String userId = jwtToken.get("user_id").asString();
 
-        List<Ability> abilities = new ArrayList<>();
+        try {
+            CompletableFuture<String> futureResponse = webSocketHandler.sendMessageToChannelAndWait(channelId, "GET_ABILITY_" + channelId);
+            String cardData = futureResponse.join();
+            List<Ability> cardTemplate = new ObjectMapper().readValue(cardData, new TypeReference<List<Ability>>() {
+            });
 
-
-        return new ResponseEntityBuilderResponse<>()
-                .setStatus(HttpStatus.OK)
-                .setObjectResponse(abilities)
-                .setMessage("Test")
-                .build();
+            return new ResponseEntityBuilderResponse<>()
+                    .setStatus(HttpStatus.OK)
+                    .setObjectResponse(cardTemplate)
+                    .setMessage("Card abilities retrieved successfully")
+                    .build();
+        } catch (Exception e) {
+            logger.error("Error retrieving card ability: {}", e.getMessage());
+            return new ResponseEntityBuilderResponse<>()
+                    .setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .setMessage("Error retrieving card ability")
+                    .build();
+        }
     }
 
     @GetMapping("/type")
     public ResponseEntity<Object> getCardsType(@RequestHeader("Authorization") String token) {
-
-        if (isValidToken(token)) return new ResponseEntityBuilderResponse<>()
-                .setStatus(HttpStatus.BAD_REQUEST)
-                .setMessage("Missing Token")
-                .build();
+        if (isValidToken(token)) {
+            return new ResponseEntityBuilderResponse<>()
+                    .setStatus(HttpStatus.BAD_REQUEST)
+                    .setMessage("Missing Token")
+                    .build();
+        }
 
         JWT jwt = new JWT();
         Map<String, Claim> jwtToken = jwt.decodeJwt(splitToken(token)).getClaims();
         String channelId = jwtToken.get("channel_id").asString();
-        String userId = jwtToken.get("user_id").asString();
 
-        List<Type> types = new ArrayList<>();
-        types.add(new Type(1L, "BOSS"));
-        types.add(new Type(1L, "AIR"));
-        types.add(new Type(1L, "Frier"));
-        types.add(new Type(1L, "HEHEHE"));
+        try {
+            CompletableFuture<String> futureResponse = webSocketHandler.sendMessageToChannelAndWait(channelId, "GET_TYPE_" + channelId);
+            String cardData = futureResponse.join();
 
-        return new ResponseEntityBuilderResponse<>()
-                .setStatus(HttpStatus.OK)
-                .setObjectResponse(types)
-                .setMessage("Test")
-                .build();
+            List<Type> cardTemplates = new ObjectMapper().readValue(cardData, new TypeReference<List<Type>>() {
+            });
+
+            return new ResponseEntityBuilderResponse<>()
+                    .setStatus(HttpStatus.OK)
+                    .setObjectResponse(cardTemplates)
+                    .setMessage("Card types retrieved successfully")
+                    .build();
+        } catch (Exception e) {
+            logger.error("Error retrieving card type: {}", e.getMessage());
+            return new ResponseEntityBuilderResponse<>()
+                    .setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .setMessage("Error retrieving card type")
+                    .build();
+        }
     }
+
 
     @GetMapping("/all")
     public ResponseEntity<Object> getCards(@RequestHeader("Authorization") String token) {
 
-        if (isValidToken(token)) return new ResponseEntityBuilderResponse<>()
-                .setStatus(HttpStatus.BAD_REQUEST)
-                .setMessage("Missing Token")
-                .build();
+        try {
 
-        JWT jwt = new JWT();
-        Map<String, Claim> jwtToken = jwt.decodeJwt(splitToken(token)).getClaims();
-        String channelId = jwtToken.get("channel_id").asString();
-        String userId = jwtToken.get("user_id").asString();
+            if (isValidToken(token)) return new ResponseEntityBuilderResponse<>()
+                    .setStatus(HttpStatus.BAD_REQUEST)
+                    .setMessage("Missing Token")
+                    .build();
 
-        List<CardTemplate> cards = new ArrayList<>();
-        cards.add(
-                new CardTemplate(
-                        1,
-                        1,
-                        "",
-                        "TEST",
-                        new Ability(1L, "TEST", "TEST", 1, 1),
-                        new Type(1L, "TEST"
-                        )
-                )
-        );
+            JWT jwt = new JWT();
+            Map<String, Claim> jwtToken = jwt.decodeJwt(splitToken(token)).getClaims();
+            String channelId = jwtToken.get("channel_id").asString();
+            String userId = jwtToken.get("user_id").asString();
 
-        cards.add(
-                new CardTemplate(
-                        1,
-                        1,
-                        "",
-                        "TEST",
-                        new Ability(1L, "TEST", "TEST", 1, 1),
-                        new Type(1L, "TEST"
-                        )
-                )
-        );
 
-        return new ResponseEntityBuilderResponse<>()
-                .setStatus(HttpStatus.OK)
-                .setObjectResponse(cards)
-                .setMessage("Test")
-                .build();
+            if (!channelId.equals(userId)) {
+                return new ResponseEntityBuilderResponse<>()
+                        .setStatus(HttpStatus.BAD_REQUEST)
+                        .setMessage("General Error: user not allowed")
+                        .build();
+            }
+
+            CompletableFuture<String> futureResponse = webSocketHandler.sendMessageToChannelAndWait(channelId, "GET_ALL_CARDS");
+            String cardData = futureResponse.join();
+            List<CardTemplate> cards = new ObjectMapper().readValue(cardData, new TypeReference<List<CardTemplate>>() {
+            });
+
+            return new ResponseEntityBuilderResponse<>()
+                    .setStatus(HttpStatus.OK)
+                    .setObjectResponse(cards)
+                    .setMessage("Test")
+                    .build();
+        } catch (Exception e) {
+            logger.error("Error retrieving card data: {}", e.getMessage());
+            return new ResponseEntityBuilderResponse<>()
+                    .setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .setMessage("Error retrieving card data")
+                    .build();
+        }
     }
 
     @CrossOrigin(origins = "*")
@@ -181,12 +199,8 @@ public class ExtensionController {
         String userId = jwtToken.get("user_id").asString();
 
         try {
-            CompletableFuture<String> futureResponse = webSocketHandler.sendMessageToChannelAndWait(channelId, "GET_CARD");
-
-            // Wait for the WebSocket response (timeout can be added as needed)
-            String cardData = futureResponse.join(); // You can use `get(long timeout, TimeUnit unit)` to set a timeout
-
-            // Process the response
+            CompletableFuture<String> futureResponse = webSocketHandler.sendMessageToChannelAndWait(channelId, "GET_CARD_" + channelId + "_" + userId);
+            String cardData = futureResponse.join();
             CardTemplate cardTemplate = new ObjectMapper().readValue(cardData, CardTemplate.class);
 
             return new ResponseEntityBuilderResponse<>()
@@ -203,7 +217,8 @@ public class ExtensionController {
         }
     }
 
-    private WebSocketSession getWebSocketSession(String channelId) {
+    private WebSocketSession getWebSocketSession(String channelId, String userId) {
+
         return null;
     }
 
@@ -212,6 +227,13 @@ public class ExtensionController {
     }
 
     private String splitToken(String token) {
-        return token.split(" ")[1];
+        return token.split("\\s")[1];
+    }
+
+    private record Result(String channelId, String userId) {
+    }
+
+    private static boolean isToken(String token) {
+        return isValidToken(token);
     }
 }

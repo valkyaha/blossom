@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 
 var card_id = 0
 
@@ -9,13 +9,13 @@ func _process(delta):
 	pass
 
 func data(id, image, card_name, ability_name, ability_description, card_damage, card_hp, card_type):
-	$CardImage.texture = image
-	$CardName.text = card_name
-	$AbilityName.text = ability_name
-	$AbilityDescription.text = ability_description
-	$CardDamage.text = card_damage
-	$CardHP.text = card_hp
-	$CardType.text = card_type
+	$".".texture = image
+	$PanelContainer/TemplateCard/CardName.text = card_name
+	$PanelContainer/TemplateCard/CardAbilityName.text = ability_name
+	$PanelContainer/TemplateCard/CardAbilityDesc.text = ability_description
+	$PanelContainer/TemplateCard/HFlowContainer/DMGLabel.text = card_damage
+	$PanelContainer/TemplateCard/HFlowContainer/HPLabel.text = card_hp
+	$PanelContainer/TemplateCard/TypeLabel.text = card_type
 	card_id = id
 
 
@@ -32,8 +32,8 @@ func get_input_data():
 func export_data():
 	var image_data = null
 	var pba = null
-	if $CardImage.texture != null:
-		pba = $CardImage.texture.get_image().save_png_to_buffer()
+	if $".".texture != null:
+		pba = $".".texture.get_image().save_png_to_buffer()
 
 	var data = {
 		"id" : card_id,

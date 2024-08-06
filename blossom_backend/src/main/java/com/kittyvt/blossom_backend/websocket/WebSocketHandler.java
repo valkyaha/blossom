@@ -63,14 +63,14 @@ public class WebSocketHandler extends TextWebSocketHandler {
     }
 
     @Override
-    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+    public void afterConnectionEstablished(WebSocketSession session) {
         String channelId = getChannelIdFromSession(session);
         sessionsByChannel.put(channelId, session);
         logger.info("Connection established: {} for channel: {}", session.getId(), channelId);
     }
 
     @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
         String channelId = getChannelIdFromSession(session);
         sessionsByChannel.remove(channelId);
         logger.info("Connection closed: {} for channel: {}", session.getId(), channelId);
